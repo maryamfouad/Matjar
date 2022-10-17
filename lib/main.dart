@@ -1,3 +1,5 @@
+import 'package:dna_graduation/UI/Screens/Authentication/SignUp.dart';
+import 'package:dna_graduation/UI/Screens/BNB.dart';
 import 'package:dna_graduation/UI/Screens/SplashScreen/Splash.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -24,7 +26,8 @@ class MyApp extends StatelessWidget {
           ],
           background: Container(color: Color(0xFFF5F5F5))),
       initialRoute: "/",
-      home: SplashScreen(),
+      home: SignUp(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

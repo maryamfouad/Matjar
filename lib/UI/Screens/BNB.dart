@@ -1,4 +1,6 @@
-import 'package:dna_graduation/UI/Screens/CategoryPage/Categories.dart';
+import 'package:dna_graduation/UI/Screens/CategoryPage/Category.dart';
+import 'package:dna_graduation/UI/Screens/CartPage/Cart.dart';
+import 'package:dna_graduation/UI/Screens/ProfilePage/Profile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dna_graduation/UI/Screens/HomePage/Home.dart';
@@ -15,6 +17,8 @@ class _BNBState extends State<BNB> {
   List pages = [
     Home(),
     Categories(),
+    Cart(),
+    Profile(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -31,13 +35,14 @@ class _BNBState extends State<BNB> {
             title: Text("Home"),
           ),
           CustomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            title: Text("Cart"),
-          ),
-          CustomNavigationBarItem(
             icon: Icon(Icons.category),
             title: Text("Categories"),
           ),
+          CustomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            title: Text("Cart"),
+          ),
+
           CustomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             title: Text("Me"),

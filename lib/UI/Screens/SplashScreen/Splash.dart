@@ -1,3 +1,4 @@
+import 'package:dna_graduation/UI/Screens/BNB.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dna_graduation/UI/Screens/HomePage/Home.dart';
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       showLoader: false,
       //loadingText: Text("Loading..."),
-      navigator: Home(),
+      navigator: BNB(),
       durationInSeconds: 5,
     );
   }
