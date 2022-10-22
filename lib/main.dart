@@ -1,8 +1,12 @@
 import 'package:dna_graduation/UI/Screens/Authentication/SignUp.dart';
 import 'package:dna_graduation/UI/Screens/BNB.dart';
+import 'package:dna_graduation/UI/Screens/CategoryPage/items.dart';
+import 'package:dna_graduation/UI/Screens/ProfilePage/Profile.dart';
 import 'package:dna_graduation/UI/Screens/SplashScreen/Splash.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+
+import 'UI/Screens/CategoryPage/PagesProfile.dart';
 
 
 void main() {
@@ -26,7 +30,7 @@ class MyApp extends StatelessWidget {
           ],
           background: Container(color: Color(0xFFF5F5F5))),
       initialRoute: "/",
-      home: SignUp(),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

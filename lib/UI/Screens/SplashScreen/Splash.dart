@@ -1,4 +1,6 @@
 import 'package:dna_graduation/UI/Screens/BNB.dart';
+import 'package:dna_graduation/UI/Screens/Onboarding/OnboardingModels.dart';
+import 'package:dna_graduation/UI/Screens/Onboarding/OnboardingScreens.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dna_graduation/UI/Screens/HomePage/Home.dart';
@@ -19,8 +21,10 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       showLoader: false,
       //loadingText: Text("Loading..."),
-      navigator: BNB(),
+      navigator: onBoarding(),
       durationInSeconds: 5,
+
+
     );
   }
 }
