@@ -16,15 +16,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return EasySplashScreen(
-      logo: Image.asset("images/dnaLogo.png" , fit: BoxFit.cover,),
+      logo: Image.asset(
+        "images/dnaLogo.png",
+        fit: BoxFit.cover,
+      ),
 
       backgroundColor: Colors.white,
       showLoader: false,
       //loadingText: Text("Loading..."),
       navigator: onBoarding(),
-      durationInSeconds: 5,
-
-
+      durationInSeconds: 2,
     );
   }
 }
