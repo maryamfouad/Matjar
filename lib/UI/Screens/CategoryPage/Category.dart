@@ -15,11 +15,11 @@ class _CategoriesState extends State<Categories> {
   Map categoryResp = {};
   List categoryData = [];
   Future getData() async {
-    var url = Uri.parse("http://localhost:4000/categories");
+    var url = Uri.parse("https://matjar-api.matjarteam.repl.co/categories");
     Response response = await get(url);
 
     String body = response.body;
-
+    print(body);
     Map list1 = json.decode(body);
 
     return list1;
