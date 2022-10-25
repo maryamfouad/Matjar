@@ -6,10 +6,12 @@ import 'package:dna_graduation/UI/Screens/ProfilePage/Profile.dart';
 import 'package:dna_graduation/UI/Screens/SplashScreen/Splash.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-
+import 'package:dna_graduation/data/sharedPrefs/data.dart';
 import 'UI/Screens/CategoryPage/PagesProfile.dart';
 
-void main() {
+void main() async {
+  await userSharedPrefs.init();
+
   runApp(MyApp());
 }
 
