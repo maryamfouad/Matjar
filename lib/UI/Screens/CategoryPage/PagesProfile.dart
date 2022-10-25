@@ -78,12 +78,11 @@ class _PagesState extends State<Pages> {
                     fontSize: 19),
               ),
               Padding(padding: EdgeInsets.only(bottom: 6)),
-               Text(
-                      "$caption",
-                      style: TextStyle(
-                          color: Colors.grey, fontFamily: "Roboto", fontSize: 15),
-                    ),
-
+              Text(
+                "$caption",
+                style: TextStyle(
+                    color: Colors.grey, fontFamily: "Roboto", fontSize: 15),
+              ),
             ],
           )
         ],

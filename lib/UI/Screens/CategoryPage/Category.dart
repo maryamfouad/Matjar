@@ -1,3 +1,4 @@
+import 'package:dna_graduation/UI/Screens/CategoryPage/items.dart';
 import 'package:flutter/material.dart';
 import 'package:dna_graduation/UI/Screens/BNB.dart';
 import 'package:flutter/rendering.dart';
@@ -72,7 +73,8 @@ class _CategoriesState extends State<Categories> {
               itemCount: categoryData.length,
               scrollDirection: Axis.vertical,
               itemBuilder: (BuildContext context, int index) {
-                return Category(categoryData[index]["categoryName"]);
+                return Category(categoryData[index]["categoryName"],
+                    categoryData[index]['id']);
               },
             ),
           ),
@@ -81,25 +83,32 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
-  Widget Category(String Type) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      height: 50,
-      width: MediaQuery.of(context).size.width - 100,
-      child: Center(
-        child: Text(
-          "$Type",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: "Roboto",
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
+  Widget Category(String Type, categoryId) {
+    return InkWell(
+      onTap: () async {
+        await Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                Items(categoryId: categoryId, categoryName: Type)));
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        height: 50,
+        width: MediaQuery.of(context).size.width - 100,
+        child: Center(
+          child: Text(
+            "$Type",
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: "Roboto",
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.grey[400],
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.grey[400],
+        ),
       ),
     );
   }

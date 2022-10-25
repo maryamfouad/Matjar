@@ -1,5 +1,6 @@
 import 'package:dna_graduation/UI/Screens/Authentication/SignUp.dart';
 import 'package:dna_graduation/UI/Screens/BNB.dart';
+import 'package:dna_graduation/UI/Screens/CategoryPage/Category.dart';
 import 'package:dna_graduation/UI/Screens/CategoryPage/items.dart';
 import 'package:dna_graduation/UI/Screens/ProfilePage/Profile.dart';
 import 'package:dna_graduation/UI/Screens/SplashScreen/Splash.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'UI/Screens/CategoryPage/PagesProfile.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -18,8 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: (context, child) => ResponsiveWrapper.builder(
-          child,
+      builder: (context, child) => ResponsiveWrapper.builder(child,
           maxWidth: 1200,
           minWidth: 480,
           defaultScale: true,
@@ -35,4 +34,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
