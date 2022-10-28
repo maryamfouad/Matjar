@@ -1,10 +1,12 @@
-import 'package:dna_graduation/UI/Screens/CategoryPage/Category.dart';
-import 'package:dna_graduation/UI/Screens/CartPage/Cart.dart';
-import 'package:dna_graduation/UI/Screens/ProfilePage/Profile.dart';
-import 'package:flutter/foundation.dart';
+import 'package:dna_graduation/UI/buyerScreens/Authentication/SignIn.dart';
+import 'package:dna_graduation/UI/buyerScreens/CategoryPage/Category.dart';
+import 'package:dna_graduation/UI/buyerScreens/CartPage/Cart.dart';
+import 'package:dna_graduation/UI/buyerScreens/ProfilePage/profileInfo.dart';
 import 'package:flutter/material.dart';
-import 'package:dna_graduation/UI/Screens/HomePage/Home.dart';
+import 'package:dna_graduation/UI/buyerScreens/HomePage/Home.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+import 'package:dna_graduation/data/sharedPrefs/data.dart';
+
 class BNB extends StatefulWidget {
   const BNB({Key? key}) : super(key: key);
 
@@ -14,12 +16,34 @@ class BNB extends StatefulWidget {
 
 class _BNBState extends State<BNB> {
   int SelectedIndex = 0;
-  List pages = [
-    Home(),
-    Categories(),
-    Cart(),
-    Profile(),
-  ];
+  var token;
+  var pages;
+  Future detPage(token) async {
+    if (token != null) {
+      pages = [
+        Home(),
+        Categories(),
+        Cart(),
+        profileInfo(),
+      ];
+    } else {
+      pages = [
+        Home(),
+        Categories(),
+        Cart(),
+        SignIn(),
+      ];
+    }
+  }
+
+  @override
+  void initState() {
+    token = userSharedPrefs.getToken();
+    print(token);
+    super.initState();
+    detPage(token);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +66,6 @@ class _BNBState extends State<BNB> {
             icon: Icon(Icons.shopping_cart),
             title: Text("Cart"),
           ),
-
           CustomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             title: Text("Me"),
@@ -54,8 +77,7 @@ class _BNBState extends State<BNB> {
             SelectedIndex = index;
           });
         },
-      )
-    ,
+      ),
       body: pages[SelectedIndex],
     );
   }

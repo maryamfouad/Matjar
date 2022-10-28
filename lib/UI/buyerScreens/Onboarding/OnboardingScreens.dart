@@ -3,11 +3,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, file_names
 //onBoarding is page
 
-import 'package:dna_graduation/UI/Screens/BNB.dart';
+import 'package:dna_graduation/UI/buyerScreens/BNB.dart';
 import 'package:flutter/material.dart';
-import 'package:dna_graduation/UI/Screens/Onboarding/OnboardingModels.dart';
-import 'package:dna_graduation/UI/Screens/Onboarding/Slide.dart';
-import 'package:dna_graduation/UI/Screens/Onboarding/Dot.dart';
+import 'package:dna_graduation/UI/buyerScreens/Onboarding/OnboardingModels.dart';
+import 'package:dna_graduation/UI/buyerScreens/Onboarding/Slide.dart';
+import 'package:dna_graduation/UI/buyerScreens/Onboarding/Dot.dart';
 import 'package:dna_graduation/data/sharedPrefs/data.dart';
 
 class onBoarding extends StatefulWidget {

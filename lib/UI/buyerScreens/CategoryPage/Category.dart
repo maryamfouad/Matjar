@@ -1,6 +1,6 @@
-import 'package:dna_graduation/UI/Screens/CategoryPage/items.dart';
+import 'package:dna_graduation/UI/buyerScreens/CategoryPage/items.dart';
 import 'package:flutter/material.dart';
-import 'package:dna_graduation/UI/Screens/BNB.dart';
+import 'package:dna_graduation/UI/buyerScreens/BNB.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart';
 import 'dart:convert';

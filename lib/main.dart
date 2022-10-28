@@ -1,17 +1,14 @@
-import 'package:dna_graduation/UI/Screens/Authentication/SignUp.dart';
-import 'package:dna_graduation/UI/Screens/BNB.dart';
-import 'package:dna_graduation/UI/Screens/CategoryPage/Category.dart';
-import 'package:dna_graduation/UI/Screens/CategoryPage/items.dart';
-import 'package:dna_graduation/UI/Screens/ProfilePage/Profile.dart';
-import 'package:dna_graduation/UI/Screens/SplashScreen/Splash.dart';
+import 'dart:ui';
+
+import 'package:dna_graduation/UI/SplashScreen/Splash.dart';
+import 'package:dna_graduation/data/sharedPrefs/data.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:dna_graduation/data/sharedPrefs/data.dart';
-import 'UI/Screens/CategoryPage/PagesProfile.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await userSharedPrefs.init();
-
+  DartPluginRegistrant.ensureInitialized();
   runApp(MyApp());
 }
 
