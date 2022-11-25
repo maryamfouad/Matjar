@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:dna_graduation/UI/SplashScreen/Splash.dart';
 import 'package:dna_graduation/data/sharedPrefs/data.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,6 @@ import 'package:responsive_framework/responsive_framework.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await userSharedPrefs.init();
-  DartPluginRegistrant.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -28,7 +25,7 @@ class MyApp extends StatelessWidget {
           ],
           background: Container(color: Color(0xFFF5F5F5))),
       initialRoute: "/",
-      home: SplashScreen(),
+      home: SplashScreen(), 
       debugShowCheckedModeBanner: false,
     );
   }

@@ -76,8 +76,8 @@ class _onBoardingState extends State<onBoarding> {
                     padding: const EdgeInsets.all(45.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.white, //background color
-                        onPrimary: Colors.purple, //ripple color
+                        backgroundColor: Colors.white, //background color
+                        foregroundColor: Colors.purple, //ripple color
                         textStyle: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                         fixedSize: Size(

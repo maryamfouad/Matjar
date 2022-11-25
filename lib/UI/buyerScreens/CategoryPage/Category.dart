@@ -1,7 +1,6 @@
 import 'package:dna_graduation/UI/buyerScreens/CategoryPage/items.dart';
+import 'package:dna_graduation/data/apiData/urls.dart';
 import 'package:flutter/material.dart';
-import 'package:dna_graduation/UI/buyerScreens/BNB.dart';
-import 'package:flutter/rendering.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
@@ -13,10 +12,15 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
+  Map<String, IconData> iconsMap = {
+    'flowers': Icons.spa_outlined,
+    'home': Icons.home_outlined,
+    'handmade': Icons.volunteer_activism_outlined,
+  };
   Map categoryResp = {};
   List categoryData = [];
   Future getData() async {
-    var url = Uri.parse("https://matjar-api.matjarteam.repl.co/categories");
+    var url = Uri.parse("$baseUrl/categories");
     Response response = await get(url);
 
     String body = response.body;
@@ -84,32 +88,48 @@ class _CategoriesState extends State<Categories> {
   }
 
   Widget Category(String Type, categoryId) {
-    return InkWell(
-      onTap: () async {
-        await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                Items(categoryId: categoryId, categoryName: Type)));
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        height: 50,
-        width: MediaQuery.of(context).size.width - 100,
-        child: Center(
-          child: Text(
-            "$Type",
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: "Roboto",
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-            ),
+    return Column(
+      children: [
+        InkWell(
+          onTap: () async {
+            await Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    Items(categoryId: categoryId, categoryName: Type)));
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 5),
+            height: 50,
+            width: MediaQuery.of(context).size.width - 25,
+            child: Center(
+                child: ListTile(
+              horizontalTitleGap: 10,
+              title: Text(
+                capitalize("$Type"),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: "Roboto",
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              leading: Icon(
+                iconsMap[Type],
+                color: Colors.black,
+              ),
+              trailing: Icon(Icons.arrow_right),
+            )),
           ),
         ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.grey[400],
-        ),
-      ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: Divider(
+            height: 3,
+          ),
+        )
+      ],
     );
   }
+
+  String capitalize(String s) =>
+      s[0].toUpperCase() + s.substring(1).toLowerCase();
 }

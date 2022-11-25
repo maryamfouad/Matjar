@@ -1,53 +1,22 @@
-import 'package:dna_graduation/UI/buyerScreens/CategoryPage/itemDetails.dart';
-import 'package:dna_graduation/data/apiData/urls.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-class Items extends StatefulWidget {
-  final int categoryId;
-  final String categoryName;
+import '../CategoryPage/itemDetails.dart';
 
-  Items({
-    required this.categoryId,
-    required this.categoryName,
+class ordersDetails extends StatefulWidget {
+  final List orderData;
+  ordersDetails({
+    required this.orderData,
   });
-
   @override
-  _ItemsState createState() => _ItemsState();
+  State<ordersDetails> createState() => _ordersDetailsState();
 }
 
-class _ItemsState extends State<Items> {
-  Map categoryResp = {};
-  List categoryData = [];
-  Future getData() async {
-    var url = Uri.parse("$baseUrl/category/${widget.categoryName}Products/");
-    Response response = await get(url);
-
-    String body = response.body;
-    Map list1 = json.decode(body);
-
-    return list1;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getData().then((value) {
-      setState(() {
-        categoryResp = value;
-        if (categoryResp['code'] != 200) {
-          print('error in getting data: ' + categoryResp['MSG']);
-        }
-        categoryData = categoryResp["data"];
-        print(categoryData);
-      });
-    });
-  }
-
+class _ordersDetailsState extends State<ordersDetails> {
   @override
   Widget build(BuildContext context) {
-    print(categoryData);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -56,7 +25,7 @@ class _ItemsState extends State<Items> {
         toolbarHeight: 40,
         backgroundColor: Colors.white,
         title: Text(
-          "${widget.categoryName}",
+          "Order #${widget.orderData[0]["orderid"]}",
           style: TextStyle(color: Colors.black, fontFamily: "Roboto"),
         ),
         centerTitle: true,
@@ -70,10 +39,10 @@ class _ItemsState extends State<Items> {
         ),
       ),
       body: ListView.builder(
-        itemCount: categoryData.length,
+        itemCount: widget.orderData.length,
         scrollDirection: Axis.vertical,
         itemBuilder: (BuildContext context, int index) {
-          return Item(categoryData[index], index);
+          return Item(widget.orderData[index], index);
         },
       ),
     );

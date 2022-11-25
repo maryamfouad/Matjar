@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dna_graduation/UI/buyerScreens/BNB.dart';
 import 'package:dna_graduation/UI/sellerScreens/sellerbnbtest.dart';
+import 'package:dna_graduation/data/apiData/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:dna_graduation/UI/buyerScreens/Authentication/SignUp.dart';
 import 'package:http/http.dart';
@@ -143,7 +144,7 @@ class _SignInState extends State<SignIn> {
                         fontSize: 20),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
+                    backgroundColor: Colors.black,
                     //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     minimumSize: Size(250, 50),
                     padding: (EdgeInsets.all(10)),
@@ -181,7 +182,7 @@ class _SignInState extends State<SignIn> {
 
   Future login(username, password) async {
     try {
-      var url = Uri.parse('https://matjar-api.matjarteam.repl.co/signin');
+      var url = Uri.parse('$baseUrl/signin');
       Map<String, String> headers = {"Content-type": "application/json"};
 
       String json = '{"username": "$username", "password": "$password"}';
@@ -189,7 +190,7 @@ class _SignInState extends State<SignIn> {
       String body1 = response.body;
       var data = jsonDecode(body1);
       var success = data["success"];
-
+      print(data);
       if (success == "true") {
         var token = data['data'][0]['userToken'];
         var isShop = data['data'][0]['isShop'];
@@ -206,6 +207,7 @@ class _SignInState extends State<SignIn> {
         throw data['data'];
       }
     } catch (e) {
+      print(e);
       showDialog(
           context: context,
           builder: (context) {

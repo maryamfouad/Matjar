@@ -1,10 +1,8 @@
 import 'package:dna_graduation/UI/buyerScreens/BNB.dart';
-import 'package:dna_graduation/UI/buyerScreens/Onboarding/OnboardingModels.dart';
 import 'package:dna_graduation/UI/buyerScreens/Onboarding/OnboardingScreens.dart';
 import 'package:dna_graduation/UI/sellerScreens/sellerbnbtest.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:dna_graduation/UI/buyerScreens/HomePage/Home.dart';
 import 'package:dna_graduation/data/sharedPrefs/data.dart';
 
 class SplashScreen extends StatefulWidget {

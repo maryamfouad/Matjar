@@ -1,6 +1,10 @@
-import 'package:dna_graduation/UI/buyerScreens/Authentication/SignIn.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
+import 'package:dna_graduation/UI/buyerScreens/BNB.dart';
+import 'package:dna_graduation/data/apiData/urls.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:dna_graduation/data/sharedPrefs/data.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -15,6 +19,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController name = new TextEditingController();
   TextEditingController PhoneNumbe = new TextEditingController();
   TextEditingController location = new TextEditingController();
+  bool? isShop = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,9 +155,8 @@ class _SignUpState extends State<SignUp> {
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
                 child: TextFormField(
                   controller: PhoneNumbe,
-                  keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    hintText: "PhoneNumber",
+                    labelText: "Phone Number",
                     labelStyle: TextStyle(
                         color: Colors.black45,
                         fontWeight: FontWeight.w500,
@@ -173,7 +177,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   style: TextStyle(
                       fontFamily: "Roboto", fontWeight: FontWeight.w500),
-                  textInputAction: TextInputAction.go,
+                  textInputAction: TextInputAction.next,
                   cursorColor: Colors.grey[600],
                 ),
               ),
@@ -181,10 +185,9 @@ class _SignUpState extends State<SignUp> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
                 child: TextFormField(
-                  controller: PhoneNumbe,
-                  keyboardType: TextInputType.phone,
+                  controller: location,
                   decoration: InputDecoration(
-                    hintText: "Location",
+                    labelText: "Location",
                     labelStyle: TextStyle(
                         color: Colors.black45,
                         fontWeight: FontWeight.w500,
@@ -205,16 +208,59 @@ class _SignUpState extends State<SignUp> {
                   ),
                   style: TextStyle(
                       fontFamily: "Roboto", fontWeight: FontWeight.w500),
-                  textInputAction: TextInputAction.go,
+                  textInputAction: TextInputAction.next,
                   cursorColor: Colors.grey[600],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade200)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.shopping_bag,
+                            size: 20,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: 12,
+                          ),
+                          Text(
+                            'Are you a seller?',
+                            style: TextStyle(
+                                color: Colors.black45,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Roboto",
+                                fontSize: 16),
+                          ),
+                        ],
+                      ),
+                      Checkbox(
+                        checkColor: Colors.white,
+                        activeColor: Colors.grey,
+                        value: this.isShop,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            this.isShop = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(padding: EdgeInsets.only(bottom: 15)),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SignIn()));
+                  onPressed: () async {
+                    await SignUp(username.text, password.text, PhoneNumbe.text,
+                        isShop, name.text, location.text);
                   },
                   child: Text(
                     "Register",
@@ -225,7 +271,7 @@ class _SignUpState extends State<SignUp> {
                         fontSize: 20),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
+                    backgroundColor: Colors.black,
                     //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     minimumSize: Size(250, 50),
                     padding: (EdgeInsets.all(10)),
@@ -252,12 +298,55 @@ class _SignUpState extends State<SignUp> {
                           fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (contexr) => SignIn()));
+                      Navigator.of(context).pop();
                     },
                   ),
                 ],
               )
             ])));
+  }
+
+  Future SignUp(
+      username, password, number, isShop, displayName, location) async {
+    try {
+      var url = Uri.parse("$baseUrl/signup");
+      Map<String, String> headers = {
+        "Content-type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      };
+
+      String json =
+          '{"username": "$username", "password": "$password", "number": "$number", "isShop": "$isShop", "displayName": "$displayName","province": "$location"}';
+      Response response = await post(
+        url,
+        headers: headers,
+        body: json,
+      );
+      String body1 = response.body;
+      print(body1);
+      var data = jsonDecode(body1);
+      print(data);
+      var success = data["success"];
+
+      if (success == "true") {
+        var token = data['token'];
+        userSharedPrefs.setToken(token);
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => BNB()));
+      } else {
+        throw data['message'];
+      }
+    } catch (e) {
+      print(e);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+              title: Text("Error"),
+              contentPadding: EdgeInsets.all(20),
+              children: [Text(e.toString())],
+            );
+          });
+    }
   }
 }
