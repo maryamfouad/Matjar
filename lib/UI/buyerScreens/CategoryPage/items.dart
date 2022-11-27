@@ -18,36 +18,38 @@ class Items extends StatefulWidget {
 }
 
 class _ItemsState extends State<Items> {
-  Map categoryResp = {};
-  List categoryData = [];
-  Future getData() async {
-    var url = Uri.parse("$baseUrl/category/${widget.categoryName}Products/");
-    Response response = await get(url);
+  getCategoryData() async {
+    try {
+      var url = Uri.parse("$baseUrl/category/${widget.categoryName}products/");
 
-    String body = response.body;
-    Map list1 = json.decode(body);
+      Response response = await get(
+        url,
+      );
+      String body1 = response.body;
+      var data = jsonDecode(body1);
+      var code = data["code"];
 
-    return list1;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getData().then((value) {
-      setState(() {
-        categoryResp = value;
-        if (categoryResp['code'] != 200) {
-          print('error in getting data: ' + categoryResp['MSG']);
-        }
-        categoryData = categoryResp["data"];
-        print(categoryData);
-      });
-    });
+      if (code == 200) {
+        return data["data"];
+      } else {
+        throw data;
+      }
+    } catch (e) {
+      print(e);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+              title: Text("Error"),
+              contentPadding: EdgeInsets.all(20),
+              children: [Text(e.toString())],
+            );
+          });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    print(categoryData);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -69,13 +71,51 @@ class _ItemsState extends State<Items> {
           color: Colors.black,
         ),
       ),
-      body: ListView.builder(
-        itemCount: categoryData.length,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (BuildContext context, int index) {
-          return Item(categoryData[index], index);
-        },
+      body: FutureBuilder(
+        future: getCategoryData(),
+        builder: ((context, snapshot) {
+          if (snapshot.hasError) {
+            final error = snapshot.error;
+            return Text('Error: $error');
+          } else if (snapshot.hasData) {
+            var data = snapshot.data;
+            print(data.toString());
+            if (data.toString() == "[]") {
+              return Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.network(
+                      "https://img.freepik.com/premium-vector/file-found-flat-illustration_418302-62.jpg?w=740",
+                      height: 400,
+                      width: 400,
+                    ),
+                    Text("No items found"),
+                  ],
+                ),
+              );
+            }
+            return buildItems(data);
+          } else {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.grey,
+              ),
+            );
+          }
+        }),
       ),
+    );
+  }
+
+  Widget buildItems(data) {
+    return ListView.builder(
+      itemCount: data.length,
+      scrollDirection: Axis.vertical,
+      itemBuilder: (BuildContext context, int index) {
+        return Item(data[index], index);
+      },
     );
   }
 
@@ -126,7 +166,7 @@ class _ItemsState extends State<Items> {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "$name",
+                        manageText(name, 15),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
@@ -139,7 +179,7 @@ class _ItemsState extends State<Items> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      manageText("$description", 22),
+                      manageText("$description", 17),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 16),
@@ -171,8 +211,6 @@ class _ItemsState extends State<Items> {
     if (text.length > maxLength) {
       var rest = text.substring(maxLength, text.length);
       var newString = text.replaceAll(rest, "...");
-      print(newString);
-      print(text);
 
       return newString;
     } else {

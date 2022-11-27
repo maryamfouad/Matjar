@@ -56,19 +56,15 @@ class _BNBState extends State<BNB> {
         items: [
           CustomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text("Home"),
           ),
           CustomNavigationBarItem(
             icon: Icon(Icons.category),
-            title: Text("Categories"),
           ),
           CustomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
-            title: Text("Cart"),
           ),
           CustomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            title: Text("Me"),
           ),
         ],
         currentIndex: SelectedIndex,

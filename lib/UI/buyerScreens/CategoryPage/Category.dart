@@ -14,8 +14,13 @@ class Categories extends StatefulWidget {
 class _CategoriesState extends State<Categories> {
   Map<String, IconData> iconsMap = {
     'flowers': Icons.spa_outlined,
+    'accessories': Icons.diamond_outlined,
     'home': Icons.home_outlined,
     'handmade': Icons.volunteer_activism_outlined,
+    'clothing': Icons.checkroom_outlined,
+    'selfcare': Icons.self_improvement_outlined,
+    'other': Icons.more_horiz_outlined,
+    'sport': Icons.sports_basketball_outlined,
   };
   Map categoryResp = {};
   List categoryData = [];
@@ -59,14 +64,6 @@ class _CategoriesState extends State<Categories> {
           style: TextStyle(color: Colors.black, fontFamily: "Roboto"),
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_outlined),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          iconSize: 25,
-          color: Colors.black,
-        ),
       ),
       body: SingleChildScrollView(
         child: Center(

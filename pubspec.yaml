@@ -26,6 +26,8 @@ dependencies:
   easy_splash_screen: ^1.0.4
   shared_preferences: ^2.0.15
   carousel_images: ^1.1.2
+  
+  full_screen_image_null_safe: any 
   responsive_framework: ^0.1.9
   http: ^0.13.5
   # The following adds the Cupertino Icons font to your application.

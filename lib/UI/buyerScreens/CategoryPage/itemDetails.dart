@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dna_graduation/data/apiData/urls.dart';
 import 'package:flutter/material.dart';
+import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:http/http.dart';
 import 'package:dna_graduation/data/sharedPrefs/data.dart';
 
@@ -19,7 +20,6 @@ class _iteminfoState extends State<iteminfo> {
   getRecommendedData() async {
     try {
       var url = Uri.parse("$baseUrl/category/recommendedProducts");
-
 
       Response response = await get(
         url,
@@ -66,174 +66,178 @@ class _iteminfoState extends State<iteminfo> {
           color: Colors.black,
         ),
       ),
-      body: Column(
-        children: [
-          Stack(clipBehavior: Clip.none, children: [
-            Container(
-                width: MediaQuery.of(context).size.width,
-                height: 250,
-                color: Colors.grey[300],
-                child: Image.network("${widget.itemData['productImage']}",
-                    fit: BoxFit.cover)),
-            Positioned(
-              bottom: -MediaQuery.of(context).size.height / 1.4,
-              child: Container(
-                height: MediaQuery.of(context).size.height - 250,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 3,
-                          spreadRadius: 2,
-                          color: Colors.black.withOpacity(.5))
-                    ]),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: [
+            FullScreenWidget(
+              child: Hero(
+                tag: widget.itemData["productName"],
+                child: Container(
+                  height: 220,
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey, blurRadius: 3, spreadRadius: 3)
+                      ],
+                      image: DecorationImage(
+                          image: NetworkImage(
+                            "${widget.itemData['productImage']}",
+                          ),
+                          fit: BoxFit.cover),
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(30)),
+                ),
               ),
             ),
-          ]),
-          Container(
-            height: MediaQuery.of(context).size.height / 1.5,
-            padding: EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 1.5,
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.itemData['productName'],
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 25),
-                    ),
-                    Text(
-                      "${widget.itemData['productPrice']} IQD",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 25),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                CategoriesCards(widget.itemData['productCategory']
-                    .replaceAll(' ', '')
-                    .split(',')),
-                SizedBox(
-                  height: 25,
-                ),
-                Text(
-                  "Recommended",
-                  style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                FutureBuilder(
-                  future: getRecommendedData(),
-                  builder: ((context, snapshot) {
-                    if (snapshot.hasError) {
-                      final error = snapshot.error;
-                      return Text('Error: $error');
-                    } else if (snapshot.hasData) {
-                      var data = snapshot.data;
-                      return buildRecommended(data);
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.grey,
-                        ),
-                      );
-                    }
-                  }),
-                ),
-                Spacer(),
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Description",
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Divider(
-                  height: 10,
-                  thickness: 2,
-                  indent: 150,
-                  endIndent: 150,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "${widget.itemData['productDescription']}",
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (userSharedPrefs.getToken()?.isNotEmpty ?? false) {
-                        var snackBar = SnackBar(
-                          content: Text('Added to cart!'),
-                        );
-                        print(widget.itemData.runtimeType);
-                        var cartBefore = userSharedPrefs.getCartMap();
-                        cartBefore.add(widget.itemData);
-                        userSharedPrefs.setCartMap(cartBefore);
-                        print(userSharedPrefs.getCartMap());
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      } else {
-                        var snackBar = SnackBar(
-                          content: Text('Please login first.'),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(Icons.shopping_cart),
-                        SizedBox(
-                          width: 5,
+                        Text(
+                          widget.itemData['productName'],
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 22),
                         ),
                         Text(
-                          "Add To Cart",
+                          "${widget.itemData['productPrice']} IQD",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Roboto",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
+                              fontWeight: FontWeight.w700, fontSize: 25),
                         ),
                       ],
                     ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      minimumSize: Size(250, 50),
-                      padding: (EdgeInsets.all(10)),
+                    SizedBox(
+                      height: 15,
                     ),
-                  ),
+                    CategoriesCards(widget.itemData['productCategory']
+                        .replaceAll(' ', '')
+                        .split(',')),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Text(
+                      "Recommended",
+                      style: TextStyle(
+                        fontFamily: "Roboto",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    FutureBuilder(
+                      future: getRecommendedData(),
+                      builder: ((context, snapshot) {
+                        if (snapshot.hasError) {
+                          final error = snapshot.error;
+                          return Text('Error: $error');
+                        } else if (snapshot.hasData) {
+                          var data = snapshot.data;
+                          return buildRecommended(data);
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.grey,
+                            ),
+                          );
+                        }
+                      }),
+                    ),
+                    Spacer(),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Description",
+                        style: TextStyle(fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Divider(
+                      height: 10,
+                      thickness: 2,
+                      indent: 150,
+                      endIndent: 150,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "${widget.itemData['productDescription']}",
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (userSharedPrefs.getToken()?.isNotEmpty ?? false) {
+                            var snackBar = SnackBar(
+                              content: Text('Added to cart!'),
+                            );
+                            print(widget.itemData.runtimeType);
+                            var cartBefore = userSharedPrefs.getCartMap();
+                            cartBefore.add(widget.itemData);
+                            userSharedPrefs.setCartMap(cartBefore);
+                            print(userSharedPrefs.getCartMap());
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else {
+                            var snackBar = SnackBar(
+                              content: Text('Please login first.'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.shopping_cart),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Add To Cart",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Roboto",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          minimumSize: Size(250, 50),
+                          padding: (EdgeInsets.all(10)),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )
-        ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -296,6 +300,8 @@ class _iteminfoState extends State<iteminfo> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "$name",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 )),
             SizedBox(

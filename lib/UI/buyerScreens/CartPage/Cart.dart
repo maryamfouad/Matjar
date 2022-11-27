@@ -77,14 +77,6 @@ class _CartState extends State<Cart> {
           style: TextStyle(color: Colors.black, fontFamily: "Roboto"),
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_outlined),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          iconSize: 25,
-          color: Colors.black,
-        ),
       ),
       body: cartItems.isEmpty
           ? Center(
@@ -155,7 +147,7 @@ class _CartState extends State<Cart> {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "$name",
+                        manageText("$name", 10),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
@@ -168,7 +160,7 @@ class _CartState extends State<Cart> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      manageText("$description", 22),
+                      manageText("$description", 17),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 16),

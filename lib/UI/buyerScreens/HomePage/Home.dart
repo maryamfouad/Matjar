@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:dna_graduation/data/sharedPrefs/data.dart';
 import 'package:http/http.dart';
 
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -24,7 +25,6 @@ class _HomeState extends State<Home> {
   getHomeData() async {
     try {
       var url1 = Uri.parse("$baseUrl/category/recommendedProducts");
-
 
       Response response1 = await get(
         url1,
@@ -74,18 +74,10 @@ class _HomeState extends State<Home> {
         toolbarHeight: 40,
         backgroundColor: Colors.white,
         title: Text(
-          userSharedPrefs.getToken() ?? "NOT LOGGED IN",
+          "Home",
           style: TextStyle(color: Colors.black, fontFamily: "Roboto"),
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_outlined),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          iconSize: 25,
-          color: Colors.black,
-        ),
       ),
       body: FutureBuilder(
         future: getHomeData(),
@@ -235,6 +227,8 @@ class _HomeState extends State<Home> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "$name",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 )),
             SizedBox(

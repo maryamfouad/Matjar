@@ -88,23 +88,26 @@ class _profileInfoState extends State<profileInfo> {
               color: Colors.black,
             ),
           )),
-      body: FutureBuilder(
-        future: getProfileData(),
-        builder: ((context, snapshot) {
-          if (snapshot.hasError) {
-            final error = snapshot.error;
-            return Text('Error: $error');
-          } else if (snapshot.hasData) {
-            var data = snapshot.data;
-            return profile(data);
-          } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Colors.grey,
-              ),
-            );
-          }
-        }),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder(
+          future: getProfileData(),
+          builder: ((context, snapshot) {
+            if (snapshot.hasError) {
+              final error = snapshot.error;
+              return Text('Error: $error');
+            } else if (snapshot.hasData) {
+              var data = snapshot.data;
+              return profile(data);
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Colors.grey,
+                ),
+              );
+            }
+          }),
+        ),
       ),
     );
   }
@@ -216,7 +219,7 @@ class _profileInfoState extends State<profileInfo> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 35,
               ),
               Container(
                   decoration: BoxDecoration(
@@ -237,7 +240,7 @@ class _profileInfoState extends State<profileInfo> {
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                     ),
                     Container(
-                      height: 500,
+                      height: 450,
                       padding: EdgeInsets.all(10),
                       child: FutureBuilder(
                         future: getMyOrders(userSharedPrefs.getToken()),
@@ -247,6 +250,21 @@ class _profileInfoState extends State<profileInfo> {
                             return Text('Error: $error');
                           } else if (snapshot.hasData) {
                             var data = snapshot.data;
+                            print(data.toString());
+                            if (data.toString() == "[]") {
+                              return Center(
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      "images/orders.png",
+                                      height: 400,
+                                      width: 400,
+                                    ),
+                                    Text("No past orders!"),
+                                  ],
+                                ),
+                              );
+                            }
                             return myOrdersBuild(data);
                           } else {
                             return Center(
@@ -311,14 +329,19 @@ class _profileInfoState extends State<profileInfo> {
                 border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.circular(25)),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Order #${data[index][0]["orderid"]}",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text("${data[index].length} Products"),
-                Text("Status ${data[index][0]["status"]}"),
-                Text("Date ${data[index][0]["orderDate"]}"),
+                Column(
+                  children: [
+                    Text("${data[index].length} Products"),
+                    Text("Status: ${data[index][0]["status"]}"),
+                    Text("Date: ${data[index][0]["orderDate"]}"),
+                  ],
+                ),
                 Container(
                   padding: EdgeInsets.all(10),
                   child: Text(

@@ -95,7 +95,7 @@ class _ordersDetailsState extends State<ordersDetails> {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "$name",
+                        manageText(name, 15),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
@@ -108,7 +108,7 @@ class _ordersDetailsState extends State<ordersDetails> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      manageText("$description", 22),
+                      manageText("$description", 16),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 16),
