@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:dna_graduation/data/sharedPrefs/data.dart';
 import 'package:http/http.dart';
 
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -24,7 +23,7 @@ class _HomeState extends State<Home> {
   ];
   getHomeData() async {
     try {
-      var url1 = Uri.parse("$baseUrl/category/recommendedProducts");
+      var url1 = Uri.parse("$baseUrl/category/recommendedproducts");
 
       Response response1 = await get(
         url1,
@@ -67,7 +66,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.withOpacity(0.3),
+      backgroundColor: Colors.grey.withOpacity(0.2),
       appBar: AppBar(
         elevation: 0.7,
         bottomOpacity: 0.1,
@@ -113,12 +112,14 @@ class _HomeState extends State<Home> {
       width: MediaQuery.of(context).size.width,
       child: ListView(
         children: [
-          CarouselImages(
-            scaleFactor: 0.6,
-            listImages: listImage,
-            height: 240.0,
-            borderRadius: 30.0,
-            verticalAlignment: Alignment.topCenter,
+          Container(
+            child: CarouselImages(
+              scaleFactor: 0.6,
+              listImages: listImage,
+              height: 240.0,
+              borderRadius: 30.0,
+              verticalAlignment: Alignment.topCenter,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 25, left: 10.0),

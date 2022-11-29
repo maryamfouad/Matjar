@@ -19,7 +19,7 @@ class iteminfo extends StatefulWidget {
 class _iteminfoState extends State<iteminfo> {
   getRecommendedData() async {
     try {
-      var url = Uri.parse("$baseUrl/category/recommendedProducts");
+      var url = Uri.parse("$baseUrl/category/recommendedproducts");
 
       Response response = await get(
         url,
@@ -85,7 +85,7 @@ class _iteminfoState extends State<iteminfo> {
                             "${widget.itemData['productImage']}",
                           ),
                           fit: BoxFit.cover),
-                      color: Colors.red,
+                      color: Colors.grey,
                       borderRadius: BorderRadius.circular(30)),
                 ),
               ),

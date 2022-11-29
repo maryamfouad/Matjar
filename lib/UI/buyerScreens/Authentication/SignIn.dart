@@ -27,14 +27,6 @@ class _SignInState extends State<SignIn> {
           //bottomOpacity: 0.1,
           toolbarHeight: 40,
           backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_outlined),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            iconSize: 25,
-            color: Colors.black,
-          ),
         ),
         body: SingleChildScrollView(
             child: Column(

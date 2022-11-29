@@ -29,25 +29,9 @@ class _CategoriesState extends State<Categories> {
     Response response = await get(url);
 
     String body = response.body;
-    print(body);
     Map list1 = json.decode(body);
-
-    return list1;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getData().then((value) {
-      setState(() {
-        categoryResp = value;
-        if (categoryResp['code'] != 200) {
-          print('error in getting data: ' + categoryResp['MSG']);
-        }
-        categoryData = categoryResp["data"];
-        print(categoryData);
-      });
-    });
+    categoryData = list1["data"];
+    return categoryData;
   }
 
   @override
@@ -65,19 +49,40 @@ class _CategoriesState extends State<Categories> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 60,
-            child: ListView.builder(
-              itemCount: categoryData.length,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, int index) {
-                return Category(categoryData[index]["categoryName"],
-                    categoryData[index]['id']);
-              },
-            ),
+      body: FutureBuilder(
+        future: getData(),
+        builder: ((context, snapshot) {
+          if (snapshot.hasError) {
+            final error = snapshot.error;
+            return Text('Error: $error');
+          } else if (snapshot.hasData) {
+            var data = snapshot.data;
+            return BuildCategories(data);
+          } else {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.grey,
+              ),
+            );
+          }
+        }),
+      ),
+    );
+  }
+
+  Widget BuildCategories(categoryData) {
+    return SingleChildScrollView(
+      child: Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height - 60,
+          child: ListView.builder(
+            itemCount: categoryData.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              return Category(categoryData[index]["categoryName"],
+                  categoryData[index]['id']);
+            },
           ),
         ),
       ),

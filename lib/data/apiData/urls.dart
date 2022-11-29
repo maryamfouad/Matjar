@@ -1,1 +1,1 @@
-var baseUrl = 'http://192.168.1.112:4000';
+var baseUrl = 'https://matjar-api.matjarteam.repl.co';
